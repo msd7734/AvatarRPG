@@ -1,0 +1,34 @@
+To do maneuvers, we need a new eventing system to work during battles.
+When executing a maneuver in the code, there has to be a handler that registers maneuver effect objects
+Brainstorming for the structure of these objects:
+
+Maneuver {
+	Id (int or string?),
+	EffectTiming (from ManeuverTiming struct or whatever Javascript has),
+	Callback (function that takes state of battle and action executed(?)) to apply the maneuver
+	Deregister_Callback (function to call when turn is over to undo effects, if applied)
+	IsTriggered (has the maneuver been called to effect yet)
+}
+
+EffectTiming: 
+	"immediate",
+	"pre-user-act",
+	"post-user-act",
+	"post-ally-act",
+	"pre-enemy-act",
+	"post-enemy-act",
+	[...]
+	
+A Maneuver could also be a dictionary of triggers with effects.
+Effect could be: function pointer that takes game state in some form and acts, string of code to eval
+
+At the beginning of battle, register all maneuvers chosen by the battlers.
+Before each (or certain) stages of the battle, check registered maneuvers that have a trigger matching current battle action/step.
+If a matching trigger is found, apply the effect.
+ - Sidenote: How to handle two effects that may trigger at the same time?
+If the effect is applied, set IsTriggered to true.
+ - Sidenote: Each maneuver needs a way to determine if, after its trigger being set off, an effect has occured that needs to be undone.
+ - - Ex1: If an enemy with less STR attacks you, that enemy loses 10 Effectiveness on their attack.
+ - - - Will trigger on enemy attack, will not go into effect.
+ - - No need to worry about whether something has to be undone or not - just how/when to set IsTriggered.
+ - - - IsTriggered = true, then Deregister_callback can check that (as param, etc.) If no deregsiter will need to be done, make the function pointer null

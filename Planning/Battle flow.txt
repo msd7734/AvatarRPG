@@ -1,0 +1,46 @@
+Detailed Combat Flow
+====================
+
+This will mark any flow or steps different from the default battle rules
+
+1. Setup encounter
+ - Get potential tendencies from table(?) for each enemy in troop
+ - Roll from tendencies, assign to each enemy
+
+2. First turn start
+- PCs choose 1 Attack
+- - Martial/Physical attack (base attack)
+- - Bending move
+- PCs choose 1 Maneuver
+- - Use item
+- - Martial/Physical maneuver
+- - Bending maneuver
+- Enemies choose 1 attack and 1 maneuver weighted by tendency
+
+3. Execute moves
+- Apply all maneuver effects in any order
+- Apply each battler's attack in order determined by AGI
+- - Based on selected attack's effectiveness, calculate miss, glancing, direct hit
+- - Calculate damage by rolling from base damage, then ADD damage bonus formula
+- - If direct hit:
+- - - calulcate critical based on luck(?)
+- - - If critical:
+- - - - double(?) calculated damage
+- - If glancing blow:
+- - - halve calculated damage
+- - If miss:
+- - - reduce calculated damage to 0
+- - Apply calculated damage
+- - Roll effects (if applicable)
+- - Apply effects (if applicable)
+- - Subtract chi cost (if applicable)
+  
+4. Post-turn
+ - De-apply maneuver effects (where applicable)
+ - Apply Chi gain to each battler
+
+When all enemies or PCs HP is reduced to 0:
+
+5. Encounter end
+ - Replenish all PCs Chi
+ - Apply skill progress(?)

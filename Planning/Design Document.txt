@@ -1,0 +1,30 @@
+Goals
+----
+- Create a faithful ATLA setting in RPG Maker-style including graphics, locations, music, sound effects
+- Converging story paths based on a player's selection of 1 of 3 starts: Life as a water, fire, or earthbender
+- Recreate traditional RPG combat with an Avatar universe flavor
+- Fights between benders are more complex, nerve-wracking and require more strategy
+- Bending is more than just for combat - connect the characters' abilities to the world
+- - In this same vein, build elements of realism. A waterbender that does not know the technique to pull water from the air or ground must carry a skin of bending water to have access to their abilities if no natural water is nearby. However, realism always comes second in the case where it may negatively affect gameplay
+- - Try to remain keenly aware of the limits of "realism"; there's always a point where it stops being fun or interesting to get too realistic
+- Acquire companions of varying permanence through story, quests, and/or hire
+- Develop a battle system such that any moment of a fight in the show could (within reason) be explained or recreated through the combat mechanics
+- Combat system is robust enough that an experienced, intelligent player will spend less chi and lose less health per encounter
+
+Setting
+-------
+The Avatar world, some time after the Fire Lord was defeated. Republic City is in its early days.
+The PC will begin their path in their respective nation and all paths will converge on Republic City for the climax of the story.
+The waterbender begins in the Northern Water Tribe and goes to a port in the northern Earth Kingdom.
+The earthbender begins in an Earth Kingdom village far east of Republic City
+The firebender begins in a Fire Kingdom village and goes to a port in the western Earth Kingdom.
+All the locations will be theoretically connected. Obstacles that change depending on the story the PC is following remain to be seen.
+
+Story Overview
+--------------
+The player character (henceforth PC) is a young bender who must leave his home and make his way to Republic City.
+The Prologue of sorts will take place in the hometown. After that, the PC will reach the Earth Kingdom mainland, or in the case of the earthbender, simply travel to the first hub.
+Progression will be divided across multiple "hubs". For our purposes, a hub is a collection of towns and wilderness areas between which one may travel freely on foot. Note that "hub" is an internal term for gameplay progression, not a term to be used in the game. On a physical map, one might call the story hubs "regions", "states", "districts", etc. While travelling to "in-hub" locations may be done freely, travelling between hubs is more of a "fade to black" style event, such as taking a boat, carriage, etc.
+The meat of the gameplay will revolve around arranging money and/or completing quests to attain travel between hubs. This is a neat theme to include because ATLA frequently showcased money and travel concerns of the group. As a general rule, you should be able to freely backtrack to previous hubs. This may change with planning and further design, but for now it would seem a bit anti-fun to shut too-large parts of the game off permanently.
+The climax of the story will be the arrival in Republic City. The quest line here will revolve around the PC being the witness to some crime perpetrated by Yakone and his gang (perhaps his bloodbending), and their subsequent attempts to eliminate the witnesses (the player's party).
+

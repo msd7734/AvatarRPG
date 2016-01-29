@@ -1,0 +1,14 @@
+Native Script Call docs
+-----------------------
+It only took many, many years but apparently FINALLY somebody documented all the native functions and classes that are implemented in RTP and what they do, how to use them, etc. You would think this would have been taken care of almost immediately once the scripting community came about, but whatever...
+
+http://rpgmaker.net/scripts/464/
+http://rpgmaker.net/scripts/465/
+http://rpgmaker.net/scripts/466/
+http://rpgmaker.net/scripts/467/
+
+Help and resources
+------------------
+www.rpgmakervxace.net
+forums.rpgmakerweb.com
+rpgmaker.net

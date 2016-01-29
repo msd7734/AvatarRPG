@@ -1,0 +1,17 @@
+Yanfly:
+-------
+Ace Core Engine
+Ace Menu Engine
+Ace Battle Engine (don't forget Revival animation fix)
+Battle Command List (especially for hide [in bender battle {?}])
+Extra Param Formulas
+Hide Menu Skills (hide when not in a bender battle (?))
+Visual Battlers (consider using this)
+TP Manager (to reshape TP into the AP system)
+Learn Skills Engine
+Skills Menu
+JP Manager
+
+Grimoire Castle
+---------------
+Skill Upgrade

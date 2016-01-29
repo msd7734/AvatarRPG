@@ -1,0 +1,396 @@
+Bender vs Bender Combat
+-----------------------
+
+Normal combat functions with the traditional RPG system. However, more options will be unlocked during a bender vs bender fight. 
+
+A bender has what we'll tentatively call Action Points (AP). Every turn, the bender receives their max number of AP to distribute to either offensive or defensive actions. This system can come in different flavors:
+
+1. Generalized AP that are spend on offensive or defensive actions to queue up every turn
+ - Advantage of this is that it allows a character to switch to an all-out offensive style or use turtle/anticipative strategies on a turn by turn basis
+
+2. Attack AP and Defense AP that may only be assigned to offensive and defensive actions respectively.
+ - This still allows specialization (character may choose to put more points into attack than defense)
+ - It's a bit more restrictive (though nothing to say you couldn't obtain a respec of sorts)
+
+3. Hell, while we're at it, why not a support movepool to spend AP in? This idea comes from the fact that techniques like Water Healing may be considered support and neither directly offensive or defensive. Other support abilities might include using bending to set up other techniques (water tentacles) or raise stats. The more I write and think about it the more I like this idea. 
+
+4. Combination of all of the above:
+- General AP (can be assigned to any category during a turn)
+- Attack AP (must be assigned to attack etc.)
+- Defense AP
+- Support AP
+
+For now, only offensive and defensive options are locked in. More powerful techniques take more AP, and are added to a queue (hopefully this isn't a pain in the ass to implement in RPG Maker, or somebody already has a working solution similar to this concept). When battle occurs, there are there are two flavors possible for resolving combat:
+
+1. Defense techniques are "set up" for both characters at the beginning. All attacks of the faster character occur at the same time in one go, followed by those of the slower character in a similar manner. (NOTE: Holy shit how am I going to get the AI to  strategize with this)
+
+2. The actions share one queue and each character executes one action each simultaneously by moving through the queue.
+ - Advantages: Feels like a real fight, going blow by blow
+ - Disadvantages: Moreso down to luck, may be wasted actions when both players use defense
+
++--------------+	+-------------+
+| Player Queue |	| Enemy Queue |
++--------------+	+-------------+
+|Fireball      |	|Short Dodge  |
+----------------	---------------
+|Short Dodge   |	|Water Whip   |
+----------------	---------------
+|Weapon Strike |	|Weapon Strike|
+----------------	---------------
+
+Using flavor #1, the order of the queues wouldn't matter. The sequence of events would be:
+
+Player readies 1 Short Dodge.
+Enemy readies 1 Short Dodge.
+
+Player bends a Fireball.
+Roll relevant stats against enemy's Short Dodge technique to determine if it hits, and what the damage is.
+Player attacks with equipped weapon.
+Roll relevant stats against enemy's Short Dodge technique to determine if it hits, and what the damage is.
+
+Enemy bends a Water Whip.
+Roll relevant stats against Player's Short Dodge technique to determine if it hits, and what the damage is.
+Enemy attacks with equipped weapon.
+Roll relevant stats against Player's Short Dodge technique to determine if it hits, and what the damage is.
+
+Using flavor #2, the order of the queues would matter.
+
+Player attacks:
+Player bends a Fireball.
+Roll relevant stats against enemy's Short Dodge
+
+Player defends:
+Enemy bends a Water Whip.
+Roll relevant stats against Player's Short Dodge
+
+Both attack:
+Both calculate damage as normal, faster character calculating first.
+
+
+Another action queue to show different scenarios:
+
++--------------+	+-------------+
+| Player Queue |	| Enemy Queue |
++--------------+	+-------------+
+|Short Dodge   |	|Short Dodge  |
+----------------	---------------
+|Short Dodge   |	|Water Whip   |
+----------------	---------------
+|Fireball      |	|Short Dodge  |
+----------------	---------------
+
+Flavor #1:
+
+Player readies 2 Short Dodge.
+Enemy readies 2 Short Dodge.
+
+Player bends a Fireball.
+Roll relevant stats against enemy's Short Dodge
+If Short Dodge fails, roll relevant stats against enemy's Short Dodge
+
+Enemy bends a Water Whip.
+Roll relevant stats against player's Short Dodge
+If Short Dodge fails, roll relevant stats against player's Short Dodge
+
+Flavor #2:
+
+
+Bending attacks function as expected, and take Chi to execute, as they would in traditional combat.
+A character with lots of AP but not enough trained skills may be able to do things like queue multiple Ice Shard attacks for a flurry of weaker attacks. This sould ideally be expensive in AP and Chi but allow for powerful attacks before being able to train higher level techniques. For example, training the Ice Rain technique would yield an attack equivalent stats to using 5 Ice Shard attacks. So we're looking at a diffence like this (a simplistic example of attack stats):
+
+Ice Shard
+---------
+Offensive Technique - Waterbending
+AP: 1
+Chi: 2
+Damage: 4
+
+Ice Rain
+--------
+Offensive Technique - Waterbending
+AP: 3
+Chi: 8
+Damage: 20
+
+If I'm a low skill water bender with sufficient AP count of 5, I can do this:
+
++--------------+
+| Action Queue |
++--------------+
+|Ice Shard     |
+----------------
+|Ice Shard     |
+----------------
+|Ice Shard     |
+----------------
+|Ice Shard     |
+----------------
+|Ice Shard     |
+----------------
+Result:
+5 AP consumed
+10 Chi consumed
+20 potential damage dealt
+
+But as I become more skilled, I'm a more efficient bender:
+
++--------------+
+| Action Queue |
++--------------+
+|Ice Rain      |
+----------------
+
+Result:
+3 AP consumed
+8 Chi consumed
+20 potential damage dealt
+
+NOTE: Ideally there would be a standard distribution for AP Consumed, Chi Consumed, and Damage Dealt
+For example, generally 1 AP is worth about 3 Chi, all which yield about 10 damage.
+In addition, this should factor in defensive techniques as well, so equivalent AP and Chi spent should, over a normalized distribution, result in X% of damage reduction through straight resistance or dodging damage altogether.
+
+
+Defensive techniques would be widely varied to combat many different techniques, either in a wide or specific niche. One question that needs to be answered is that of a base effect percentage. For example, do we want this:
+
+Short Dodge
+-----------
+AP: 1
+Chi: 0
+[50% chance + AGI mod] to have effect: Avoid all damage from an attack
+
+Or more in line with this:
+
+Short Dodge
+-----------
+AP: 1
+Chi: 0
+Reduce damage: [5%-20%] + [AGI mod]
+
+It may be easier to balance the second kind, plus players would find it annoying that a defensive action could be useless, and find the opportunity cost of using attacks to be more worth it.
+
+NOTE: This could be a plus for  the specified AP or combination specific and general AP flavors. 
+
+A good middle solution would also be:
+
+Short Dodge
+-----------
+AP: 1
+Chi: 0
+Reduce all damage: [5%-20%] + [AGI mod]
+20% chance to avoid all damage from weapon attacks.
+
+This third method seems to me to be the best. It will never feel useless to use, and it can greatly reward the player for properly predicting the opponent's attack.
+
+NOTE: For the example of readying multiple defensive actions I used above, I rolled for each defensive action each attack. (Ready two Def. and each is rolled against every attack) This needs to be carefully balanced An alternative method would be to "consume" a defensive action after using it once. In a way, this makes sense since a character with more AP would be able to overwhelm a weaker opponent, no matter how defensive they are.  The concept from above also says to roll for ensuing defensive techniques if one of them fails... But if we go with consistent effects like in the 1st and 3rd concepts for the Short Dodge, this doesn't make any sense. 
+
+I think that, in the end, one roll per defensive action is reasonable.
+
+===================
+
+Let's forget the entire idea of queueing anything.
+Start from a basic character, and let's say there are slots for offensive and defensive skills, which are earned through some process. Maybe level up, maybe training of some sort.
+We'll start with 1 and 1, Offensive and Defensive
+
+Idea: Separate into Attack and Maneuver (instead of Defense)? Because Maneuver may include a stance to change to full on attack or give other bonuses to attack, or do something unrelated to defense.
+
+Bending attacks will take Chi, that much we know. We need to give some value to choosing a defensive maneuver each turn that deepens the game's strategy beyond "Always go for the most defense".
+I think a good way to balance this is to make maneuvers regain chi in certain situations. That way defense feeds into attack and vice versa. Ideally, a well skilled character and player will be able
+to come out of a battle with less chi spent and less damage taken than a newbie player by intelligently using attacks and maneuvers. <-- DESIGN GOAL
+Maneuvers may also decrease attack elements in exchange for defense.
+
+Aside: "intelligently" - an important word. How do we make it so maneuvers to reduce damage have some thought behind them that isn't pure guessing? Some system to generate a random "personality" for each
+encounter would be great. If we want this to make any difference (ie. enough turns for a player to notice an opponent's habits), however, we want to make it so that an encounter lasts long enough.
+On that note: the "harder" the read/guess by the player, the more it should pay off. Remember this as an important rule.
+
+ENCOUNTER TIME:
+Make encounters longer, reduce the expected number per playthrough. Maybe an encounter should last 3-4 minutes, perhaps 10 minutes for a boss. In this case, 400-500 encounters per game is a lot.
+If we expect about 500 encounters over the course of a game with a time of 4 minutes, that's a 33.3 hour game from start to end JUST spent battling. Let's say maybe 2 minutes. 16.67 hours just in battle.
+This seems short but figure the average random encounter in a normal rpg, and how long a turn takes. It might take 10 seconds (on the long side) for the (experienced) player to select their moves. A newbie might take 2-3x that.
+Let's say between 5-8 seconds for animations and battle resolution. How many turns does an average of 2 minutes per encounter give us? Assuming the fastest case, 8. The slowest, about 3-4.
+This actually sounds pretty good, maybe say 2 minutes but 2.5 is not out of the question. Bending fights between "equally skilled" players and enemies should be draining (hopefully not tedious, though!).
+If we add wild animal encounters/schlub bandit, etc. encounters which don't make use of the bending mechanics or don't require the complex decision making of a bending fight, we can drop the expectation for those down to 30s-1min.
+
+TIE INTO AI:
+Considering the numbers; 8 turns for a skilled player in 2 minutes means they have enough time to pick up on AI tendencies and smartly use their defensive skills. If tendencies are implemented smartly then there will
+be some slight randomness involved. If an enemy always wants to go for max attack and no defense, it should take 4-5 turns to be come apparent due to randomness.
+
+
+IDEA - EVASION:
+To add an element of variation to evasion, allow evading attacks to hit with "glancing blows" which deal some percentage of the otherwise effective damage. Sometimes attacks will be outright evaded, however.
+This is because we want dodging maneuvers which give evasion chances, but 10% chance to take NO DAMAGE is kind of some bullshit, especially considering the cost of bending. Maybe make bending evasion and martial
+attack evasion separate? As in, either calculate them separately or evasion skills will target one or the other, or both to varying extents.
+
+RANDOM IDEA:
+If you're a water bender with healing capabilities, you depart from the pole with spirit water allowing a full chi/health restore even from knockout. You get this, but you only get one and can never get more. WhoahDude
+In that same vein, maybe each major bending class gets a special, one-time-only item? Earthbender: Crystal rock candy (can incapacitate one enemy? save until the final boss and get a free win lol), <-- what the fuck was I on when I wrote this? (1/25/16)
+Firebender: ??
+
+==================
+STATS
+-----
+VX Ace is kind of nice because we can determine damage formulas and how each stat affects things completely independently.
+For how stats and conditions affect other things during the default battle flow, refer to this: http://i.imgur.com/Oak9W.png
+
+For default major stats we have:
+
+HP	MP	Attack	Defense	MagicAttack	MagicDefense	Agility	Luck
+
+So I think it's worth renaming these, some to be consistent with the world, others to demonstrate the they won't necessarily be used as they would be in the default case.
+Attack and Defense have to do with direct, grappling attacks and hand to hand. Assuming this will even be a factor, haven't decided yet. If we want bending to cost chi, we need some "default".
+The only issue with relegating Attack and Defense to physical attacks is that bending should be taking the center stage. Maybe split bending-affecting stats to give us more options for move effects,
+and make things deeper (or give the illusion that they're deeper, hehe). Or, certain attacks could rely on attack stat, others on MAT (Focus)
+
+HP -> HP
+MP -> Chi
+Attack -> Strength Ideas: Brawling, Martial, Fight(ing), Hand-to-Hand, Strength. (Maybe related to "physical" bending attacks? ie rock punch, ice punch... I guess they're all punches... seems boring)
+Defense -> Durability Ideas: Durability, Toughness
+MagicAttack -> Focus (Definitely related to bending)
+MagicDefense -> Spirituality (Definitely related to bending) (Maybe relate this to chi/etc. regen? In which case: "Spirituality" works nicely)
+Agility -> Agility
+Luck -> Luck (wtf to do with this?)
+
+What will they do?
+
+HP
+ - Just hitpoints.
+Chi
+ - Fuel bending moves
+ - Will regen each turn throughout the battle based on Spirituality
+ - - The regen idea is really good because it gives an element of strategy:
+ - - time maneuvers/buffs with chi regen to allow max efficiency and interesting set-ups for those who think ahead
+ - Resets at the end of each battle
+Strength
+ - Increases the damage of martial attacks and certain bending techniques
+ - Increases HP slightly (most HP is gained on level up)
+Defense
+ - Reduces the damage of martial attacks and certain bending techniques (generally those powered by Strength)
+Focus
+ - Increases Chi slightly (most Chi is gained on level up)
+ - Increases dmg of certain bending techniques.
+Spirituality
+ - Reduces damage of certain bending techniques (generally those powered by Focus)
+ - Increases Chi regen
+Agility
+ - Increases speed (determine turn order)
+Luck
+ - Increases money found and received from chests, encounters, etc.
+ - May affect other intangible things?
+ - Critical hits I guess (ugh...)
+
+MODIFIERS:
+Each stat has its own modifier value (except HP and Chi). This is the stat value / 10 (rounded down).
+
+30 STR = STR Mod +3
+39 STr = STR Mod +3
+
+Sometimes effects will multiply, add, or subtract by the modifier.
+
+
+ 
+LV 1:
+-----
+For Hero stats, let's say 10 is the bottom of the barrel. If you put nothing into a stat and get no advantages in it, you'll start around 10.
+Let's say 35 is the opposite end of the spectrum.
+Super low HP is 80, high end of spectrum is 150.
+Super low Chi is 12, high end of spectrum is 18. (Chi should be more tightly controlled)
+
+Baseline for a bending attack is 3-4 Chi.
+Sub-20 for a "very low" hit of bender damage seems to feel right with these numbers. The average attack should hover in the low 30's, low 40's for major damage.
+Another way to look at this is as a function of a percentage of the average health. Since enemies will scale with level (not automatically, but by encounter and location design), two fighters about on each other's level should do consistent fractions of the max HP.
+
+So, assuming an average threatening enemy at the same level as a player with average HP we're looking at:
+Light dmg (a glancing blow, a basic physical attack)= 1/8 - 1/7 MaxHP
+Med dmg (a direct hit with an average bending skill, a heavy physical attack) = 1/6 MaxHP
+Massive dmg (a direct hit with a powerful skill) = 1/3 MaxHP
+
+LEVEL UP:
+---------
+Each level up should allow the usage of approximately 1.4 more BASIC Chi-reliant techniques.
+Allow player to take approx 1.5 more "baseline damage" hits.
+Every level up should feel meaningful. Give the player something EVERY TIME YOU LEVEL UP. For fuck's sake. Maybe a point buy system would be good. Learn new skills by level, always get points to level up existing skills.
+Should we even be leveling up bending attacks and maneuvers though?
+
+
+Combat aside:
+-------------
+Let's think about "combos". Certain techniques can put into different states, some techniques may take advantage of states. Thus, combos to create extra effects or get extra damage are created.
+
+
+
+CLASSES:
+--------
+Waterbender
+- Bloodbender
+- Healer
+
+Earthbender
+- Metalbender
+- Lavabender
+
+Firebender
+- Lightning bending
+- Combustion bending
+
+If you meet requirements and complete a sidequest, you get to take on ONE of the subclasses. Neato!
+Some requirements will simply be having a certain stat build. If you have extremely high spirituality on Firebending, for example, you can start the combustion bending quest.
+
+Combat aside:
+-------------
+Everything is 100% accuracy, defense and maneuvers determine miss/glancing blow. <-- Obviously doing away with this. Effectiveness is a good system.
+
+Move could have motion modifiers to them that describe the motion. So:
+ - Water Whip - Strike
+ - Water Whip - Sweep
+ - Water Whip - Flurry
+ 
+ 10 + (4*a.stat_mod(a.atk) - 2*b.stat_mod(b.def))
+ 
+
+ Skills can have a new value: Effectiveness
+ 
+ Effectiveness is a value between 1-100.
+ 
+ There are 4 types of hits:
+ - Miss
+ - Glancing blow
+ - Direct hit
+ - Critical hit
+ 
+ Effectiveness governs Miss, glancing blow, and direct hit
+ Critical hits are determined by other factors, perhaps Luck.
+ 
+ At 1 effectiveness, the percentages are as follows:
+ 
+ Miss: 100%
+ GB: 0%
+ DH: 0%
+ 
+ At 100 effectiveness:
+ 
+ Miss: 0%
+ GB: 0%
+ DH: 100%
+
+ 
+Assuming the chance for a direct hit is y and the effectiveness is x:
+1.04713^x = y (logarithmic scale)
+When x = 100, y = 100
+
+Chance miss = y, effectiveness is x:
+100*(1.04713^-x) = y
+When x = 100, y = ~0.98
+
+Accordingly, floor miss chance after calculating y.
+
+Glancing blow chance = 100 - (Miss% + Direct%)
+
+Aside: make critical hits only able to apply on direct hit.
+
+It should be realized what this means exactly:
+An effectiveness of 50 would mean:
+10% chance of direct hit
+10% chance of miss
+80% chance of glancing blow
+
+So to prevent frustration, the mean effectiveness should be on the higher end of the spectrum.
+Probably between 70-80
